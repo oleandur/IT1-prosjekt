@@ -1,54 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script>
-        for(let i = 0; i < 100; i++) {
-            let test = Math.floor(Math.random()*170)
-            console.log(test)
-        }
-       
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            for (let i = 0; i < 100; i++) {
+                let test = Math.floor(Math.random() * 10);
+                console.log(test);
+            }
 
+            function biggerorlower() {
+                let country1, country2, input, riktigSvar;
+                let score = 0;
+                let countries = [
+                    "Vatican City",
+                    "Monaco",
+                    "Gibraltar",
+                    "Nauru",
+                    "Tuvalu",
+                    "San Marino",
+                    "Liechtenstein",
+                    "Saint Kitts and Nevis",
+                    "Maldives",
+                    "Malta",
+                    "Grenada",
+                    "Barbados",
+                    "Antigua and Barbuda",
+                    "Seychelles",
+                    "Palau",
+                    "Andorra",
+                    " Saint Lucia",
+                    "Micronesia",
+                    "Singapore",
+                    "Tonga",
+                    "Dominica",
+                    "Bahrain",
+                    "Kiribati",
+                    "Sao Tome and Principe",
+                    "Comoros",
+                    "Mauritius",
+                    "Luxembourg",
+                    "Samoa",
+                    "Cape Verde",
+                    "Trinidad and Tobago",
+                    "Brunei",
+                    "Palestine",
+                    "Cyprus",
+                    "Lebanon",
+                    "Gambia",
+                    "Jamaica",
+                    "Qatar",
+                    "Vanuatu",
+                    "Montenegro",
+                    "Bahamas",
+                    "Timor Leste",
+                    "Eswatini",
+                    "Kuwait",
+                    "Fiji",
+                    "Slovenia",
+                    "Israel",
+                    "El Salvador",
+                    "Belize",
+                    "Djibouti",
+                    "North Macedonia",
+                    "Rwanda",
+                    "Haiti",
+                    "Burundi",
+                    "Equatorial Guinea",
+                    "Albania",
+                    "Solomon Islands",
+                    "Armenia",
+                    "Lesotho",
+                    "Belgium",
+                    "Moldova",
+                    "Guinea-Bissau",
+                    "Taiwan",
+                    "Bhutana",
+                    "Switzerland",
+                    "Netherlands",
+                    "Denmark",
+                    "Estonia",
+                    "Dominican Republic",
+                    "Slovakia",
+                    "Costa Rica",
+                    "Bosnia And Herzegovina",
+                    "Croatia",
+                    "Togo",
+                    "Latvia",
+                    "Lithuania",
+                    "Sri Lanka",
+                    "Georgia",
+                    "Ireland",
+                    "Sierra Leone",
+                    "Panama",
+                    "Czech Republic",
+                    "French Guiana",
+                    "United Arab Emirates",
+                    "Austria",
+                    "Azerbaijan",
+                    "Serbia",
+                    "Jordan",
+                    "Portugal",
+                    "Hungary",
+                    "South Korea",
+                    "Iceland",
+                    "Guatemala",
+                    "Cuba",
+                    "Bulgaria",
+                    "Liberia",
+                    "Honduras",
+                    "Benin",
+                    "Eritrea",
+                    "Malawi",
+                    "North Korea",
+                    "Nicaragua",
+                    "Greece",
+                    "Tajikistan",
+                    "Nepal",
+                    "Bangladesh",
+                    "Tunisia",
+                    "Suriname",
+                    "Uruguay",
+                    "Cambodia",
+                    "Syria",
+                    "Senegal",
+                    "Kyrgyzstan",
+                    "Belarus",
+                    "Guyana",
+                    "Laos",
+                    "Romania",
+                    "Ghana",
+                    "Uganda",
+                    "United Kingdom",
+                    "Guinea",
+                    "Western Sahara",
+                    "Gabon",
+                    "New Zealand",
+                    "Burkina Faso",
+                    "Ecuador",
+                    "Italy",
+                    "Oman",
+                    "Poland",
+                    "Cote d'Ivoire",
+                    "Norway",
+                    "Malaysia",
+                    "Vietnam",
+                    "Finland",
+                    "Republic of the Congo",
+                    "Philippines",
+                    "Germany",
+                    "Japan",
+                    "Zimbabwe",
+                    "Paraguay",
+                    "Iraq",
+                    "Morocco",
+                    "Uzbekistan",
+                    "Sweden",
+                    "Papua New Guinea",
+                    "Cameroon",
+                    "Turkmenistan",
+                    "Spain",
+                    "Thailand",
+                    "Yemen",
+                    "France",
+                    "Kenya",
+                    "Botswana",
+                    "Madagascar",
+                    "Ukraine",
+                    "South Sudan",
+                    "Central African Republic",
+                    "Somalia",
+                    "Afghanistan",
+                    "Myanmar",
+                    "Zambia",
+                    "Chile",
+                    "Turkey",
+                    "Mozambique",
+                    "Namibia",
+                    "Pakistan",
+                    "Venezuela",
+                    "Nigeria",
+                    "Tanzania",
+                    "Egypt",
+                    "Mauritania",
+                    "Bolivia",
+                    "Ethiopia",
+                    "Colombia",
+                    "South Africa",
+                    "Mali",
+                    "Angola",
+                    "Niger",
+                    "Chad",
+                    "Peru",
+                    "Mongolia",
+                    "Iran",
+                    "Libya",
+                    "Sudan",
+                    "Indonesia",
+                    "Mexico",
+                    "Saudi Arabia",
+                    "Greenland",
+                    "DR Congo",
+                    "Algeria",
+                    "Kazakhstan",
+                    "Argentina",
+                    "India",
+                    "Australia",
+                    "Brazil",
+                    "United States",
+                    "China",
+                    "Canada",
+                    "Russia",
+                ];
+                country1 = Math.floor(Math.random() * countries.length); // Vatican er 0
 
-
-        function biggerorlower() {
-            let country1, country2, input, riktigSvar;
-            let score = 0
-            let countries = ["Vatican City", "Monaco", "Gibraltar", "Nauru", "Tuvalu", "San Marino", "Liechtenstein", "Saint Kitts and Nevis", "Maldives", "Malta", "Grenada", "Barbados", "Antigua and Barbuda", "Seychelles", "Palau", "Andorra", " Saint Lucia", "Micronesia", "Singapore", "Tonga", "Dominica", "Bahrain", "Kiribati", "Sao Tome and Principe", "Comoros", "Mauritius", "Luxembourg", "Samoa", "Cape Verde", "Trinidad and Tobago", "Brunei", "Palestine", "Cyprus", "Lebanon", "Gambia", "Jamaica", "Qatar", "Vanuatu", "Montenegro", "Bahamas", "Timor Leste", "Eswatini", "Kuwait", "Fiji", "Slovenia", "Israel", "El Salvador", "Belize", "Djibouti", "North Macedonia", "Rwanda", "Haiti", "Burundi", "Equatorial Guinea", "Albania", "Solomon Islands", "Armenia", "Lesotho", "Belgium", "Moldova", "Guinea-Bissau", "Taiwan", "Bhutana", "Switzerland", "Netherlands", "Denmark", "Estonia", "Dominican Republic", "Slovakia", "Costa Rica", "Bosnia And Herzegovina", "Croatia", "Togo", "Latvia", "Lithuania", "Sri Lanka", "Georgia", "Ireland", "Sierra Leone", "Panama", "Czech Republic", "French Guiana", "United Arab Emirates", "Austria", "Azerbaijan", "Serbia", "Jordan", "Portugal", "Hungary", "South Korea", "Iceland", "Guatemala", "Cuba", "Bulgaria", "Liberia", "Honduras", "Benin", "Eritrea", "Malawi", "North Korea", "Nicaragua", "Greece", "Tajikistan", "Nepal", "Bangladesh", "Tunisia", "Suriname", "Uruguay", "Cambodia", "Syria", "Senegal", "Kyrgyzstan", "Belarus", "Guyana", "Laos", "Romania", "Ghana", "Uganda", "United Kingdom", "Guinea", "Western Sahara", "Gabon", "New Zealand", "Burkina Faso", "Ecuador", "Italy", "Oman", "Poland", "Cote d'Ivoire", "Norway", "Malaysia", "Vietnam", "Finland", "Republic of the Congo", "Philippines", "Germany", "Japan", "Zimbabwe", "Paraguay", "Iraq", "Morocco", "Uzbekistan", "Sweden", "Papua New Guinea", "Cameroon", "Turkmenistan", "Spain", "Thailand", "Yemen", "France", "Kenya", "Botswana", "Madagascar", "Ukraine", "South Sudan", "Central African Republic", "Somalia", "Afghanistan", "Myanmar", "Zambia", "Chile", "Turkey", "Mozambique", "Namibia", "Pakistan", "Venezuela", "Nigeria", "Tanzania", "Egypt", "Mauritania", "Bolivia", "Ethiopia", "Colombia", "South Africa", "Mali", "Angola", "Niger", "Chad", "Peru", "Mongolia", "Iran", "Libya", "Sudan", "Indonesia", "Mexico", "Saudi Arabia", "Greenland", "DR Congo", "Algeria", "Kazakhstan", "Argentina", "India", "Australia", "Brazil", "United States", "China", "Canada", "Russia"]
-            country1 = Math.floor(Math.random()*(countries.length-1) ) // Vatican er 0
-            for (let i = 0; i < countries.length; i++) {
-                country2 = Math.floor(Math.random()*(countries.length-1)) // Nauru er 2
-                input = prompt(`Er ${countries[country1]} større enn ${countries[country2]}`)
-                if (country1 > country2) {
-                    riktigSvar = "ja"
-                } else {
-                    riktigSvar = "nei"
-                }
-                if (input == riktigSvar) {
-                    score++
-                    if (riktigSvar == "ja") {
-                        console.log(`${countries[country1]} er større enn ${countries[country2]}, du har ${score} poeng`)
+                for (let i = 0; i < countries.length; i++) {
+                    country2 = Math.floor(Math.random() * countries.length); // Nauru er 2
+                    input = prompt(
+                        `Er ${countries[country1]} større enn ${countries[country2]}`
+                    );
+                    if (country1 > country2) {
+                        riktigSvar = "ja";
                     } else {
-                        console.log(`${countries[country2]} er større enn ${countries[country1]}, du har ${score} poeng`)
+                        riktigSvar = "nei";
                     }
-                    countries.splice(country1, 1) // Nauru blir til 1
-                    country1 = country2 + 1
-                } else {
-                    if (input == "ja") {
-                        console.log(`${countries[country1]} er større enn ${countries[country2]}, du har ${score} poeng`)
+                    if (input == riktigSvar) {
+                        score++;
+                        if (riktigSvar == "ja") {
+                            console.log(
+                                `${countries[country1]} er større enn ${countries[country2]}, du har ${score} poeng`
+                            );
+                        } else {
+                            console.log(
+                                `${countries[country1]} er ikke større enn ${countries[country2]}, du har ${score} poeng`
+                            );
+                        }
+                        //Vatican blir slettet, Nauru blir til 1
+
+                        country1 = country2;
+                        console.log(countries[country1]);
+                    } else {
+                        if (input == "ja") {
+                            console.log(
+                                `${countries[country1]} er større enn ${countries[country2]}, du fikk ${score} poeng`
+                            );
+                        } else {
+                            console.log(
+                                `${countries[country1]} er ikke større enn ${countries[country2]}, du fikk ${score} poeng`
+                            );
+                        }
+                        return `Du tapte, og du fikk ${score} poeng`;
                     }
-                    else {
-                        console.log(`${countries[country2]} er større enn ${countries[country1]}, du har ${score} poeng`)
-                    }
-                    return `Du tapte, og du fikk ${score} poeng`
                 }
             }
-        }
-    </script>
-</body>
+        </script>
+    </body>
 </html>
