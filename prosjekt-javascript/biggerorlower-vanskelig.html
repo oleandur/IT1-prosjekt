@@ -8,13 +8,9 @@
     </head>
     <body>
         <script>
-            for (let i = 0; i < 100; i++) {
-                let test = Math.floor(Math.random() * 10);
-                console.log(test);
-            }
-
             function biggerorlower() {
                 let country1, country2, input, riktigSvar;
+                let countriesUsed = [];
                 let score = 0;
                 let countries = [
                     "Vatican City",
@@ -33,7 +29,7 @@
                     "Seychelles",
                     "Palau",
                     "Andorra",
-                    " Saint Lucia",
+                    "Saint Lucia",
                     "Micronesia",
                     "Singapore",
                     "Tonga",
@@ -217,43 +213,50 @@
                     "Russia",
                 ];
                 country1 = Math.floor(Math.random() * countries.length); // Vatican er 0
-
                 for (let i = 0; i < countries.length; i++) {
+                    countriesUsed.push(country1);
                     country2 = Math.floor(Math.random() * countries.length); // Nauru er 2
+                    for (let x = 0; x < countriesUsed.length; x++) {
+                        if (country2 == countriesUsed[x])
+                            country2 = Math.floor(
+                                Math.random() * countries.length
+                            );
+                    }
+                    if (country1 == country2)
+                        country2 = Math.floor(Math.random() * countries.length);
                     input = prompt(
-                        `Er ${countries[country1]} større enn ${countries[country2]}`
+                        `Is ${countries[country1]} bigger than ${countries[country2]}?`
                     );
                     if (country1 > country2) {
-                        riktigSvar = "ja";
+                        riktigSvar = `yes`;
                     } else {
-                        riktigSvar = "nei";
+                        riktigSvar = `no`;
                     }
                     if (input == riktigSvar) {
                         score++;
-                        if (riktigSvar == "ja") {
+                        if (riktigSvar == `yes`) {
                             console.log(
-                                `${countries[country1]} er større enn ${countries[country2]}, du har ${score} poeng`
+                                `${countries[country1]} is bigger than ${countries[country2]}, you have ${score} points`
                             );
                         } else {
                             console.log(
-                                `${countries[country1]} er ikke større enn ${countries[country2]}, du har ${score} poeng`
+                                `${countries[country1]} is not bigger than ${countries[country2]}, you have ${score} points`
                             );
                         }
                         //Vatican blir slettet, Nauru blir til 1
 
                         country1 = country2;
-                        console.log(countries[country1]);
                     } else {
-                        if (input == "ja") {
+                        if (input == `yes`) {
                             console.log(
-                                `${countries[country1]} er større enn ${countries[country2]}, du fikk ${score} poeng`
+                                `${countries[country1]} is not bigger than ${countries[country2]}, you got ${score} points`
                             );
                         } else {
                             console.log(
-                                `${countries[country1]} er ikke større enn ${countries[country2]}, du fikk ${score} poeng`
+                                `${countries[country1]} is bigger than ${countries[country2]}, you got ${score} points`
                             );
                         }
-                        return `Du tapte, og du fikk ${score} poeng`;
+                        return `You lost, and you got ${score} points`;
                     }
                 }
             }
