@@ -208,11 +208,16 @@
                 "Canada",
                 "Russia",
             ];
+            let plass = [];
+            for (let j = 198; j >= 1; j--) {
+                plass.push(j);
+            }
 
             function find(arr, request) {
                 for (let i = 0; i < arr.length; i++) {
                     if (arr[i] == request) {
-                        return i;
+                        console.log(i);
+                        return `${request} is ${plass[i]}. place by total area`;
                     }
                 }
             }

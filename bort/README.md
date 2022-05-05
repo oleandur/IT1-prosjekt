@@ -1,2 +1,0 @@
-# IT1-prosjekt
- 
