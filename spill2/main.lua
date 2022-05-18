@@ -18,7 +18,7 @@ function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     love.window.setTitle('Firkant')
-    smallFont = love.graphics.newFont('font.ttf', 12)
+    smallFont = love.graphics.newFont('font.ttf', 8)
 
     math.randomseed(os.time())
 
@@ -28,21 +28,19 @@ function love.load()
         resizable = false,
         vsync = true,
     })
+
     FirY = VIRTUAL_HEIGHT / 2 - 2
     FirX = VIRTUAL_WIDTH / 2 - 2
+    Fir2Y = math.random(0, VIRTUAL_HEIGHT/2)
+    Fir2X = math.random(0, VIRTUAL_WIDTH / 2)
 
     circleY = FirY + 10
     circleX = FirX + 10
     radius = 0
     
-    skudd = Skudd(FirX, FirY, 5, 5)
-    skudd2 = Skudd(FirX+ 10, FirY+ 10, 5, 5)
-    skudd.x = FirX
-    skudd.y = FirY
 
 
     gameStateMain = 'start'
-    gameState3 = 'ikkeSkyt'
 end
 
 
@@ -50,42 +48,6 @@ end
 function love.update(dt)
     circleX = FirX + 10
     circleY = FirY + 10
-    if gameStateMain == 'shoot' then
-        if gameState2 == 'left' then
-            skudd.x = skudd.x + -SKUDD_SPEED*dt
-        end
-        if gameState2 == 'right' then
-            skudd.x = skudd.x + SKUDD_SPEED*dt
-        end
-        if gameState2 == 'up' then
-            skudd.y = skudd.y+ -SKUDD_SPEED*dt
-        end
-        if gameState2 == 'down' then
-            skudd.y = skudd.y + SKUDD_SPEED*dt
-        end
-    
-    end
-    if gameState3 == 'skyt2' then
-        if gameState2 == 'left' then
-            skudd2.x = skudd2.x + -SKUDD_SPEED*dt
-        end
-        if gameState2 == 'right' then
-            skudd2.x = skudd2.x + SKUDD_SPEED*dt
-        end
-        if gameState2 == 'up' then
-            skudd2.y = skudd2.y+ -SKUDD_SPEED*dt
-        end
-        if gameState2 == 'down' then
-            skudd2.y = skudd2.y + SKUDD_SPEED*dt
-        end
-    end
-    if gameStateMain == 'start' then
-        skudd2.x = FirX + 20
-        skudd2.y = FirY + 10
-        skudd.x = FirX + 30
-        skudd.y = FirY + 10
-    end
-
 
     if love.keyboard.isDown('w') then
         FirY = FirY + -SPEED * dt
@@ -99,12 +61,25 @@ function love.update(dt)
 
         FirX=FirX + SPEED * dt
     end
-    love.keyboard.keysPressed = {}
+
+    if love.keyboard.isDown('up') then
+        Fir2Y = Fir2Y + -SPEED * dt
+    elseif love.keyboard.isDown('down') then
+        Fir2Y= Fir2Y + SPEED * dt
+    end
+
+    if love.keyboard.isDown('left') then
+        Fir2X = Fir2X + -SPEED * dt
+    elseif love.keyboard.isDown('right') then
+
+        Fir2X=Fir2X + SPEED * dt
+    end
+
     if gameState == 'circle' then
-        radius = math.min(100  , radius + SPEED/4 * dt)
+        radius = math.min(50  , radius + SPEED/4 * dt)
     end
     if gameState == 'circleReverse' then
-        radius = math.max(-100,radius +-SPEED/4 * dt)
+        radius = math.max(-50,radius +-SPEED/4 * dt)
     end
 
     if gameState == 'circleReversePlus' then
@@ -126,10 +101,20 @@ function love.update(dt)
         FirY = 0
     end
 
+    if Fir2X < 0 then
+        Fir2X = VIRTUAL_WIDTH
+    elseif Fir2X > VIRTUAL_WIDTH then
+        Fir2X = 0
+    end
+    if Fir2Y < 0 then
+        Fir2Y = VIRTUAL_HEIGHT
+    elseif Fir2Y > VIRTUAL_HEIGHT then
+        Fir2Y = 0
+    end
 end
 
 function love.keypressed(key)
-    if gameStateMain == 'start' then
+    
         
         if key == 'a' then 
             gameState2 ='left'
@@ -146,7 +131,7 @@ function love.keypressed(key)
         elseif key == 's' then 
             gameState2 ='down'
         end
-    end 
+
     if key == 'p' then
         gameStateMain = 'start'
     end
@@ -157,10 +142,6 @@ function love.keypressed(key)
 
     if key == 'lshift' then
         gameState = 'circle'
-    end 
-    if key == 'space' then
-        gameStateMain = 'shoot'
-        gameState3 = 'skyt2'
     end
     if key == 'enter' or key == 'return' then
         gameState = 'circleReverse'
@@ -180,17 +161,16 @@ function love.draw()
 
     push:start()
 
-    love.graphics.clear(20, 20, 20, 20)
+    love.graphics.clear(40, 40, 40, 255)
     
     
     love.graphics.setFont(smallFont)
     
-    
-    love.graphics.rectangle('fill', FirX, FirY, 20, 20)
-    love.graphics.printf('Yeah Firkant', 0, 50, VIRTUAL_WIDTH, 'center')
     love.graphics.circle('line',circleX, circleY, radius)
-    skudd:render()
-    skudd2:render()
+    love.graphics.rectangle('fill', FirX, FirY, 20, 20)
+    love.graphics.rectangle('fill', Fir2X, Fir2Y, 10, 10)
+    love.graphics.printf('Yeah Firkant', 0, 50, VIRTUAL_WIDTH, 'center')
+    
     
     push:finish()
 end
