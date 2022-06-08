@@ -16,12 +16,14 @@
 Ball = Class{}
 
 function Ball:init(skin)
-    -- simple positional and dimensional variables
+    
+
+    self.x = VIRTUAL_WIDTH / 2 - 2
+    self.y = VIRTUAL_HEIGHT / 2 - 2
     self.width = 8
     self.height = 8
 
-    -- these variables are for keeping track of our velocity on both the
-    -- X and Y axis, since the ball can move in two dimensions
+    
     self.dy = 0
     self.dx = 0
 
@@ -69,19 +71,25 @@ function Ball:update(dt)
     if self.x <= 0 then
         self.x = 0
         self.dx = -self.dx
-        gSounds['wall-hit']:play()
+        
     end
 
     if self.x >= VIRTUAL_WIDTH - 8 then
         self.x = VIRTUAL_WIDTH - 8
         self.dx = -self.dx
-        gSounds['wall-hit']:play()
+        
     end
 
     if self.y <= 0 then
         self.y = 0
         self.dy = -self.dy
-        gSounds['wall-hit']:play()
+
+    end
+    
+    if self.y >= VIRTUAL_HEIGHT - 8 then
+        self.y = VIRTUAL_HEIGHT - 8
+        self.dy = -self.dy
+        
     end
 end
 

@@ -52,11 +52,11 @@ function love.load()
 
     -- load up the graphics we'll be using throughout our states
     gTextures = {
-        ['background'] = love.graphics.newImage('graphics/background.png'),
-        ['main'] = love.graphics.newImage('graphics/breakout.png'),
-        ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
-        ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
-        ['particle'] = love.graphics.newImage('graphics/particle.png')
+        ['background'] = love.graphics.newImage('graphics/background.png', 200),
+        ['main'] = love.graphics.newImage('graphics/breakout.png', 200),
+        ['arrows'] = love.graphics.newImage('graphics/arrows.png', 200),
+        ['hearts'] = love.graphics.newImage('graphics/hearts.png', 200),
+        ['particle'] = love.graphics.newImage('graphics/particle.png', 200)
     }
 
     -- Quads we will generate for all of our textures; Quads allow us

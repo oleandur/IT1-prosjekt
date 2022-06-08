@@ -2,65 +2,82 @@ push = require 'push'
 
 Class = require 'class'
 
-require 'Skudd'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-VIRTUAL_WIDTH = 432
-VIRTUAL_HEIGHT = 243
 
 
-SPEED = 200
+
+SPEED = 800
 SKUDD_SPEED = 400
 
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    love.window.setTitle('Firkant')
-    smallFont = love.graphics.newFont('font.ttf', 8)
+    love.window.setTitle('SPILL')
+    
 
     math.randomseed(os.time())
 
     
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+    push:setupScreen(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         resizable = false,
         vsync = true,
     })
 
-    FirY = VIRTUAL_HEIGHT / 2 - 2
-    FirX = VIRTUAL_WIDTH / 2 - 2
-    Fir2Y = math.random(0, VIRTUAL_HEIGHT/2)
-    Fir2X = math.random(0, VIRTUAL_WIDTH / 2)
+    FirY = WINDOW_HEIGHT / 2 - 2
+    FirX = WINDOW_WIDTH / 2 - 2
+    Fir2Y = math.random(0, WINDOW_HEIGHT/2)
+    Fir2X = math.random(0, WINDOW_WIDTH / 2)
 
-    circleY = FirY + 10
-    circleX = FirX + 10
+    circleY = FirY + 30
+    circleX = FirX + 30
     radius = 0
+    radius2 = 20
+    radius3 = 0
+
     
-
-
     gameStateMain = 'start'
 end
 
 
 
 function love.update(dt)
-    circleX = FirX + 10
-    circleY = FirY + 10
+    
+    if gameStateMain == "play" then
+    circleX = FirX
+    circleY = FirY 
 
-    if love.keyboard.isDown('w') then
+    if radius2 == 100 then
+        radius2 = math.max(20  , radius + -SPEED/4 * dt)
+    else 
+        radius2 = math.min(200  , radius + SPEED/4 * dt)
+    end
+
+    if FirX == Fir2X and FirY == Fir2X then
+        radius2 = math.min(100, radius2 + SPEED * dt)
+        radius3 = math.min(20, radius3 + SPEED /10 *dt)
+        gameStateMain = 'start'
+    end
+
+    if love.keyboard.isDown('w') and love.keyboard.isDown('s') then
+        
+    elseif love.keyboard.isDown('w') then
         FirY = FirY + -SPEED * dt
     elseif love.keyboard.isDown('s') then
         FirY= FirY + SPEED * dt
     end
 
-    if love.keyboard.isDown('a') then
+    if love.keyboard.isDown('d') and love.keyboard.isDown('a') then
+        
+    elseif love.keyboard.isDown('a') then
         FirX = FirX + -SPEED * dt
     elseif love.keyboard.isDown('d') then
-
         FirX=FirX + SPEED * dt
     end
+
 
     if love.keyboard.isDown('up') then
         Fir2Y = Fir2Y + -SPEED * dt
@@ -75,11 +92,12 @@ function love.update(dt)
         Fir2X=Fir2X + SPEED * dt
     end
 
+
     if gameState == 'circle' then
-        radius = math.min(50  , radius + SPEED/4 * dt)
+        radius = math.min(100  , radius + SPEED/4 * dt)
     end
     if gameState == 'circleReverse' then
-        radius = math.max(-50,radius +-SPEED/4 * dt)
+        radius = math.max(-100,radius +-SPEED/4 * dt)
     end
 
     if gameState == 'circleReversePlus' then
@@ -91,46 +109,38 @@ function love.update(dt)
     end
 
     if FirX < 0 then
-        FirX = VIRTUAL_WIDTH
-    elseif FirX > VIRTUAL_WIDTH then
+        FirX = WINDOW_WIDTH
+    elseif FirX > WINDOW_WIDTH then
         FirX = 0
     end
     if FirY < 0 then
-        FirY = VIRTUAL_HEIGHT
-    elseif FirY > VIRTUAL_HEIGHT then
+        FirY = WINDOW_HEIGHT
+    elseif FirY > WINDOW_HEIGHT then
         FirY = 0
     end
 
     if Fir2X < 0 then
-        Fir2X = VIRTUAL_WIDTH
-    elseif Fir2X > VIRTUAL_WIDTH then
+        Fir2X = WINDOW_WIDTH
+    elseif Fir2X > WINDOW_WIDTH then
         Fir2X = 0
     end
     if Fir2Y < 0 then
-        Fir2Y = VIRTUAL_HEIGHT
-    elseif Fir2Y > VIRTUAL_HEIGHT then
+        Fir2Y = WINDOW_HEIGHT
+    elseif Fir2Y > WINDOW_HEIGHT then
         Fir2Y = 0
     end
+
+    
+    
 end
+end
+
 
 function love.keypressed(key)
     
-        
-        if key == 'a' then 
-            gameState2 ='left'
-    
-
-        elseif key == 'd' then 
-            gameState2 ='right'
-    
-
-        elseif key == 'w' then 
-            gameState2 ='up'
-    
-
-        elseif key == 's' then 
-            gameState2 ='down'
-        end
+    if key == 'space' then
+        gameStateMain = 'play'
+    end
 
     if key == 'p' then
         gameStateMain = 'start'
@@ -159,19 +169,27 @@ end
 
 function love.draw()
 
-    push:start()
+    
 
-    love.graphics.clear(40, 40, 40, 255)
+    
+    love.graphics.clear(155, 155, 155, 0)
     
     
-    love.graphics.setFont(smallFont)
+    love.graphics.setNewFont(20)
+
     
+    love.graphics.setColor(255, 0, 0, 255)
     love.graphics.circle('line',circleX, circleY, radius)
-    love.graphics.rectangle('fill', FirX, FirY, 20, 20)
-    love.graphics.rectangle('fill', Fir2X, Fir2Y, 10, 10)
-    love.graphics.printf('Yeah Firkant', 0, 50, VIRTUAL_WIDTH, 'center')
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.arc('fill', FirX, FirY, 30, 80, 300, 5)
+    love.graphics.circle('line', Fir2X, Fir2Y, radius2)
+    love.graphics.arc("fill",Fir2X, Fir2Y, radius3, 30, 270, 6)
     
+    if gameStateMain == 'start' then 
+		love.graphics.printf('Press Space to begin', 0, 20, WINDOW_WIDTH, 'center')
+    elseif gameStateMain == 'play' then
+        
+    end
     
-    push:finish()
 end
 
