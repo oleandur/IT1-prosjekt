@@ -16,10 +16,19 @@
 
 PlayState = Class{__includes = BaseState}
 
+    
+function PlayState:enter(params)
+    self.paddle = params.paddle
+    self.health = params.health
+    self.score = params.score
+    self.ball = params.ball
+    self.gameMode = params.gameMode
 
+    self.ball.dx = math.random(-200, 200)
+    self.ball.dy = math.random(-50, -60)
+end
 
-
-function PlayState:init()
+--[[ function PlayState:init()
     self.paddle = Paddle()
 
     -- initialize ball with skin #1; different skins = different sprites
@@ -34,7 +43,8 @@ function PlayState:init()
     self.ball.y = VIRTUAL_HEIGHT - 42
 
     self.score = 0
-end
+    self.health = 100
+end ]]
 
 function PlayState:update(dt)
    --[[  if self.paused then
@@ -72,13 +82,21 @@ function PlayState:update(dt)
         end
     end ]]
 
-    -- update positions based on velocity
+    
     self.paddle:update(dt)
     self.ball:update(dt)
 
     if self.ball:collides(self.paddle) then
-        -- raise ball above paddle in case it goes below it, then reverse dy
-            if self.ball.x - 4 > self.paddle.x -8 then
+        
+        if self.ball.y < self.paddle.y then
+            self.ball.y =self.paddle.y -8
+    
+        elseif self.ball.y > self.paddle.y then
+            self.ball.y =self.paddle.y +16
+            
+        end
+        self.ball.dy = -self.ball.dy    
+        if self.ball.x - 4 > self.paddle.x -8 then
                 self.ball.dx = 50 + (4*math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
             elseif self.ball.x + 4 < self.paddle.x then
                 self.ball.dx = -50 - (4*math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
@@ -90,14 +108,35 @@ function PlayState:update(dt)
         elseif self.ball.y + 4 < self.paddle.y + 8 then
             self.ball.dy = -50 - (4*math.abs(self.paddle.y + self.paddle.width / 2 - self.ball.y))
         end
-        self.score = self.score + 20
+
+        self.score = self.score + 1
+
+        
     end
 
 
-
-    if self.score >= 1000 then
-        gStateMachine:change('game-over', {
-            score = self.score })
+    if self.gameMode ~= 'unlimited' then
+            
+        if self:checkVictory() then
+            gStateMachine:change('victory', {
+                score = self.score })
+        end
+    end
+    if self.ball.y >= VIRTUAL_HEIGHT then
+        self.health = self.health - 1
+        if self.health == 0 then
+            gStateMachine:change('game-over', {
+                score = self.score,
+            })
+        else
+            gStateMachine:change('serve', {
+                paddle = self.paddle,
+                health = self.health,
+                score = self.score,
+                gameMode = self.gameMode
+            })
+        
+        end
     end
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
@@ -109,9 +148,23 @@ function PlayState:render()
     self.ball:render()
 
     renderScore(self.score)
+    renderHealth(self.health)
+
+    
     
     --[[ if self.paused then
         love.graphics.setFont(gFonts['large'])
         love.graphics.printf("PAUSED", 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
     end ]]
+    
+end
+
+function PlayState:checkVictory()
+    
+    if self.score >= 100 then
+        return true
+        
+    else 
+        return false
+    end
 end

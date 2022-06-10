@@ -20,16 +20,24 @@ StartState = Class{__includes = BaseState}
 -- whether we're highlighting "Start" or "High Scores"
 local highlighted = 0
 
-
 function StartState:update(dt)
     if love.keyboard.wasPressed('down') then
         highlighted = 1 
     end
+    if love.keyboard.wasPressed('u') then
+        self.gameMode = 'unlimited'
+    end
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-    
+        
 
         if highlighted == 1 then
-            gStateMachine:change('play')
+            gStateMachine:change('serve', {
+                paddle = Paddle(),
+                health = 9,
+                score = 0,
+                gameMode = self.gameMode
+                
+            })
         end
     end
 
@@ -48,10 +56,11 @@ function StartState:render()
     
     love.graphics.printf("ZARK", 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print(('Press U to play with unlimited score'), VIRTUAL_WIDTH/3, VIRTUAL_HEIGHT - 20) 
     
     love.graphics.setColor(150,150,150,255)
     love.graphics.setFont(gFonts['coolmedium'])
-
     -- if we're highlighting 1, render that option blue
     if highlighted == 1 then
         love.graphics.setColor(0, 150, 250, 255)

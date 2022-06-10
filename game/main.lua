@@ -11,6 +11,8 @@ require 'src.StateMachine'
 require 'src.Paddle'
 require 'src.Util'
 require 'src.Ball'
+require 'src.states.VictoryState'
+require 'src.states.ServeState'
 
 
 WINDOW_WIDTH = 1280
@@ -25,7 +27,7 @@ PADDLE_SPEED = 200
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    love.window.setTitle('GAME')
+    love.window.setTitle('ZARK')
     
 
     math.randomseed(os.time())
@@ -42,28 +44,41 @@ function love.load()
         ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
         ['large'] = love.graphics.newFont('fonts/font.ttf', 32),
         ['cool'] = love.graphics.newFont('fonts/BlakaHollow-Regular.ttf',48),
-        ['coolmedium'] = love.graphics.newFont('fonts/BlakaHollow-Regular.ttf', 16)
+        ['coolmedium'] = love.graphics.newFont('fonts/BlakaHollow-Regular.ttf', 16),
+        ['coolsmall'] = love.graphics.newFont('fonts/BlakaHollow-Regular.ttf', 8),
+        ['inter'] = love.graphics.newFont('fonts/Inter-VariableFont_slnt,wght.ttf', 8)
     }
     
     gStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
-        ['game-over'] = function() return GameOverState() end
+        ['serve'] = function() return ServeState() end,
+        ['game-over'] = function() return GameOverState() end,
+        ['victory'] = function() return VictoryState() end
     }
     gStateMachine:change('start')
 
 
     gTextures = {
         ['background'] = love.graphics.newImage('graphics/background.png'),
-        ['main'] = love.graphics.newImage('graphics/models.png')    }
+        ['main'] = love.graphics.newImage('graphics/models.png'),
+        ['hearts'] = love.graphics.newImage('graphics/hearts.png')
+    }
 
     
     gFrames = {
         ['balls'] = GenerateQuadsBalls(gTextures['main']),
-        ['paddles'] = GenerateQuadsPaddles(gTextures['main'])
+        ['paddles'] = GenerateQuadsPaddles(gTextures['main']),
+        ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9)
     }
     
+    gStateMachine:change('start', {
+        score = 0,
+        gameMode = 'normal'
+    })
+
     love.keyboard.keysPressed = {}
+
 end
 
 function love.resize(w, h)
@@ -122,6 +137,12 @@ end
 
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
-    love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
-    love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
+    love.graphics.print('Score:', (VIRTUAL_WIDTH /2)-20, 5)
+    love.graphics.printf(tostring(score), VIRTUAL_WIDTH /2, 5, 40, 'center')
+end
+
+function renderHealth(health)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print('HP:', (VIRTUAL_WIDTH -60), 5)
+    love.graphics.printf(tostring(health), VIRTUAL_WIDTH-60, 5, 40, 'right')
 end

@@ -1,45 +1,23 @@
---[[
-    GD50
-    Breakout Remake
 
-    -- Paddle Class --
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-
-    Represents a paddle that can move left and right. Used in the main
-    program to deflect the ball toward the bricks; if the ball passes
-    the paddle, the player loses one heart. The Paddle can have a skin,
-    which the player gets to choose upon starting the game.
-]]
 
 Paddle = Class{}
 
---[[
-    Our Paddle will initialize at the same spot every time, in the middle
-    of the world horizontally, toward the bottom.
-]]
-function Paddle:init()
-    -- x is placed in the middle
-    self.x = VIRTUAL_WIDTH / 2 - 32
 
-    -- y is placed a little above the bottom edge of the screen
+function Paddle:init()
+    
+    self.x = VIRTUAL_WIDTH / 2 - 32
     self.y = VIRTUAL_HEIGHT - 32
 
-    -- start us off with no velocity
     self.dx = 0
     self.dy = 0
 
-    -- starting dimensions
     self.width = 64
     self.height = 16
 
-    -- the skin only has the effect of changing our color, used to offset us
-    -- into the gPaddleSkins table later
+
     self.skin = 1
 
-    -- the variant is which of the four paddle sizes we currently are; 2
-    -- is the starting size, as the smallest is too tough to start with
+
     self.size = 2
 end
 
@@ -75,7 +53,7 @@ function Paddle:update(dt)
     end
 
     if self.dy < 0 then
-        self.y = math.max(0, self.y + self.dy * dt)
+        self.y = math.max(30, self.y + self.dy * dt)
     -- similar to before, this time we use math.min to ensure we don't
     -- go any farther than the bottom of the screen minus the paddle's
     -- height (or else it will go partially below, since position is
